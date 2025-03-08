@@ -1,150 +1,156 @@
+/* Product List Container */
 .product-list-container {
-  padding: 30px;
-  max-width: 1000px;
-  margin: 20px auto; /* Added some margin for breathing room */
-  font-family: 'Roboto', sans-serif; /* Modern and clean font */
-  background-color: #f9f9f9; /* Light background to contrast content */
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  padding: 15px;
+  max-width: 1200px;
+  margin: 10px auto;
+  font-family: 'Roboto', sans-serif;
+  background-color: #ffffff; /* Bright white background for high contrast */
+  border-radius: 8px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
 }
 
+/* Header */
 h2 {
-  font-size: 2.8rem; /* Slightly larger for emphasis */
-  margin-bottom: 25px;
+  font-size: 2.2rem;
+  margin-bottom: 15px;
   text-align: center;
-  color: #2c3e50; /* Richer dark color */
+  color: #2c3e50; /* Rich dark blue for contrast */
 }
 
+/* Create Button */
 .create-link {
-  display: block; /* Changed to block for better alignment */
+  display: block;
   width: fit-content;
-  margin: 25px auto; /* Centered the button */
-  padding: 15px 30px; /* Enhanced padding for a larger button */
-  background-color: #3498db; /* Brighter, vibrant blue */
-  color: white;
+  margin: 15px auto;
+  padding: 10px 25px;
+  background-color: #3498db;
+  color: #ffffff; /* Bright white text for contrast */
   text-decoration: none;
-  border-radius: 10px;
+  border-radius: 8px;
   font-weight: bold;
-  font-size: 18px;
-  transition: all 0.3s ease;
+  font-size: 16px;
+  transition: all 0.2s ease;
 }
 
 .create-link:hover {
-  background-color: #1d72aa; /* Sharper hover effect */
+  background-color: #1d72aa;
 }
 
+/* Search Bar */
 .search-bar-container {
   display: flex;
-  justify-content: space-between; /* Increased spacing between elements */
+  justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
 }
 
 .search-input {
-  padding: 12px 20px;
-  width: 75%;
-  max-width: 600px;
-  border: 1px solid #7f8c8d; /* Neutral border */
-  border-radius: 20px; /* Rounded edges for a soft look */
-  font-size: 16px;
-  transition: border-color 0.3s ease;
-  background-color: #fff; /* Neutral background */
-  color: #2c3e50;
+  padding: 8px 18px;
+  width: 80%;
+  max-width: 700px;
+  border: 1px solid #7f8c8d;
+  border-radius: 15px;
+  font-size: 14px;
+  background-color: #ffffff; /* Neutral background for readability */
+  color: #2c3e50; /* Dark text for contrast */
 }
 
 .search-input:focus {
-  border-color: #3498db; /* Enhanced focus effect */
+  border-color: #3498db;
 }
 
 .search-button {
-  padding: 12px 20px;
-  background-color: #e67e22; /* Warm orange for visibility */
-  color: white;
+  padding: 8px 20px;
+  background-color: #e67e22;
+  color: #ffffff; /* White text against orange for contrast */
   border: none;
-  border-radius: 20px;
+  border-radius: 15px;
   cursor: pointer;
-  font-size: 16px;
-  transition: transform 0.3s ease, background-color 0.3s ease;
+  font-size: 14px;
+  transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
 .search-button:hover {
-  background-color: #d35400; /* Deeper orange on hover */
-  transform: scale(1.05); /* Slight zoom effect on hover */
+  background-color: #d35400;
 }
 
+/* Product Table */
 .product-table {
   width: 100%;
   border-collapse: collapse;
-  margin: 20px 0;
-  border: 1px solid #bdc3c7; /* Softer border color */
+  margin: 15px 0;
+  border: 1px solid #bdc3c7;
 }
 
 .product-table th,
 .product-table td {
-  padding: 12px 15px;
+  padding: 8px 10px;
   text-align: left;
-  border: 1px solid #ecf0f1; /* Light border for cleaner design */
-  font-size: 14px;
+  border: 1px solid #ecf0f1;
+  font-size: 13px;
+  color: #2c3e50; /* Dark text for clean visibility */
 }
 
 .product-table th {
-  background-color: #34495e; /* Deep color for headers */
-  color: white;
+  background-color: #34495e;
+  color: #ffffff; /* White text for header contrast */
   font-weight: bold;
 }
 
 .product-table tr:nth-child(even) {
-  background-color: #ecf0f1; /* Lighter alternate rows */
+  background-color: #ecf0f1;
 }
 
 .product-table tr:hover {
-  background-color: #bdc3c7; /* Slightly darker hover effect */
+  background-color: #bdc3c7;
 }
 
+/* Links */
 .product-link {
-  color: #16a085; /* Soft green for links */
+  color: #16a085; /* Dark green for readability */
   text-decoration: none;
   font-weight: 500;
 }
 
 .product-link:hover {
   text-decoration: underline;
-  color: #1abc9c; /* Brighter green on hover */
+  color: #1abc9c;
 }
 
+/* Action Buttons */
 .edit-button,
 .delete-button {
-  padding: 10px 18px;
-  margin: 5px;
-  cursor: pointer;
+  padding: 6px 15px;
+  margin: 3px;
   border: none;
-  border-radius: 5px;
-  font-size: 14px;
-  font-family: inherit;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
 }
 
 .edit-button {
   background-color: #f1c40f;
-  color: #2c3e50; /* Slight contrast for clarity */
+  color: #2c3e50; /* Dark text for contrast against yellow */
 }
 
 .edit-button:hover {
-  background-color: #f39c12; /* Warmer hover effect */
+  background-color: #f39c12;
 }
 
 .delete-button {
   background-color: #e74c3c;
-  color: white;
+  color: #ffffff; /* White text for contrast against red */
 }
 
 .delete-button:hover {
   background-color: #c0392b;
 }
 
+/* Product Image */
 .product-image {
-  width: 60px; /* Slightly larger for better visibility */
-  height: 60px;
+  width: 70px;
+  height: 50px;
   object-fit: cover;
-  border-radius: 10px;
-  border: 1px solid #bdc3c7; /* Subtle border */
+  border-radius: 8px;
+  border: 1px solid #bdc3c7;
 }

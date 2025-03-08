@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axiosInstance from '../axiosInstance';
+import './ProductForm.css'; // Import the new CSS
 
 const ProductForm = ({ onSave, fetchProducts }) => {
   const navigate = useNavigate();
