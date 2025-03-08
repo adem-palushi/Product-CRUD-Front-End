@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axiosInstance from '../axiosInstance';
-import './ProductDetail.css'; // Importing the new CSS for styling
+import './ProductDetail.css'; // Importing the updated CSS for styling
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -28,13 +28,8 @@ const ProductDetail = () => {
   return (
     <div className="product-detail">
       <h2 className="product-title">{product.name}</h2>
-      <div className="product-info">
-        <div className="product-image">
-          <img src={product.image} alt={product.name} />
-        </div>
-        <div className="product-description">
-          <p className="product-description-text">{product.description}</p>
-        </div>
+      <div className="product-description">
+        <p className="product-description-text">{product.description}</p>
       </div>
       <div className="product-details">
         <p><strong>Price:</strong> {product.price} {product.currency}</p>
