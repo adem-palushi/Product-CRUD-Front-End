@@ -73,7 +73,7 @@ const ProductList = () => {
             <th>SKU</th>
             <th>Brand</th>
             <th>Status</th>
-            <th>Image</th>
+            {/* <th>Image</th> */}
             <th>Actions</th>
           </tr>
         </thead>
@@ -93,13 +93,13 @@ const ProductList = () => {
               <td>{product.sku}</td>
               <td>{product.brand}</td>
               <td>{product.status}</td>
-              <td>
+              {/* <td>
                 {product.image ? (
                   <img src={product.image} alt={product.name} className="product-image" />
                 ) : (
                   <span>No Image</span>
                 )}
-              </td>
+              </td> */}
               <td>
                 <button onClick={() => navigate(`/product/edit/${product._id}`)} className="edit-button">
                   Edit
