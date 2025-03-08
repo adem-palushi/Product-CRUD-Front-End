@@ -1,0 +1,78 @@
+/* Updated CSS for Register and Login pages with darker background */
+
+.auth-page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #2c3e50; /* Dark background for the page */
+  }
+  
+  .auth-form-container {
+    background-color: #ffffff; /* White background for the form to contrast with dark background */
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Darker shadow for better contrast */
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+  }
+  
+  .auth-form-container h2 {
+    font-size: 28px;
+    color: #34495e; /* Darker text color for higher contrast */
+    margin-bottom: 30px;
+    font-weight: 600;
+  }
+  
+  .auth-input {
+    width: 100%;
+    padding: 14px;
+    margin: 10px 0;
+    border: 2px solid #2980b9; /* Bright blue border */
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+    color: #2c3e50; /* Dark text color for the input */
+  }
+  
+  .auth-input:focus {
+    border-color: #3498db; /* Lighter blue when focused */
+    outline: none;
+  }
+  
+  .auth-button {
+    width: 100%;
+    padding: 14px;
+    background-color: #e74c3c; /* Strong red button color */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .auth-button:hover {
+    background-color: #c0392b; /* Darker red on hover */
+  }
+  
+  .auth-button:active {
+    background-color: #a93226; /* Even darker red when clicked */
+  }
+  
+  .auth-input::placeholder {
+    color: #7f8c8d; /* Lighter placeholder text */
+  }
+  
+  .auth-form-container .auth-link {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #2980b9; /* Bright blue link color */
+    text-decoration: none;
+  }
+  
+  .auth-form-container .auth-link:hover {
+    text-decoration: underline;
+  }
+  

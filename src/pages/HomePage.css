@@ -1,0 +1,43 @@
+/* Styling for the "Home" page */
+.home-page {
+    background-color: #3498db; /* Bright Blue */
+    color: #ffffff; /* Force all text to be white */
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 20px; /* Padding for better responsiveness */
+    box-sizing: border-box; /* Include padding in width/height */
+}
+
+.overlay {
+    background-color: rgba(0, 0, 0, 0.4); /* Subtle dark overlay for contrast */
+    padding: 30px;
+    border-radius: 10px; /* Soft rounded edges */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Depth for modern styling */
+}
+
+/* Header styling */
+.home-page h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    color: #ffffff; /* Force white for headings */
+}
+
+/* Paragraph styling */
+.home-page p {
+    font-size: 1.5rem;
+    margin: 10px 0;
+    line-height: 1.6;
+    color: #ffffff; /* Force white for all paragraphs */
+}
+
+/* Contact Info styling */
+.contact-info p {
+    margin-top: 15px;
+    font-size: 1.2rem;
+    color: #ffffff; /* Ensure all contact info text is white */
+}

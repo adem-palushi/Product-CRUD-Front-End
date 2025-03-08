@@ -1,0 +1,139 @@
+/* Sidebar */
+.sidebar {
+    background-color: #34495e;
+    color: white;
+    padding: 20px;
+    height: 100vh;
+    width: 250px;
+    position: fixed;
+  }
+  
+  .sidebar-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  .nav-links {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .nav-link {
+    color: #ecf0f1;
+    text-decoration: none;
+    margin: 10px 0;
+    font-size: 16px;
+  }
+  
+  .nav-link:hover {
+    color: #1abc9c;
+    text-decoration: underline;
+  }
+  
+  .logout-button {
+    margin-top: 20px;
+    padding: 10px 15px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .logout-button:hover {
+    background-color: #c0392b;
+  }
+  
+  /* Main Content */
+  .main-content {
+    margin-left: 270px;
+    padding: 40px;
+    background-color: #ecf0f1;
+    min-height: 100vh;
+  }
+  
+  .main-content h2 {
+    font-size: 2.5rem;
+    color: #34495e;
+    margin-bottom: 20px;
+  }
+  
+  /* Main Content */
+.main-content {
+    margin-left: 270px;
+    padding: 60px 40px; /* Increase padding to make the content larger */
+    background-color: #ecf0f1;
+    min-height: 100vh;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .welcome-container {
+    margin-bottom: 40px;
+  }
+  
+  .welcome-container h2 {
+    font-size: 3rem; /* Larger heading */
+    color: #34495e;
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+  
+  .welcome-container p {
+    font-size: 1.5rem; /* Larger text for paragraph */
+    color: #7f8c8d;
+    line-height: 1.6;
+  }
+  
+  .feature-banner {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 40px;
+  }
+  
+  .feature-banner h3 {
+    font-size: 2.5rem; /* Larger font size for sub-heading */
+    color: #34495e;
+    margin-bottom: 15px;
+  }
+  
+  .feature-list {
+    list-style-type: none;
+    padding-left: 0;
+    font-size: 1.2rem;
+    color: #2c3e50;
+  }
+  
+  .feature-list li {
+    margin-bottom: 10px;
+    line-height: 1.6;
+  }
+  
+  .feature-list li::before {
+    content: '✔️'; /* Add a check mark for list items */
+    margin-right: 10px;
+    color: #1abc9c; /* Make the check mark green */
+  }
+  
+  .feature-list li:hover {
+    color: #16a085; /* Change color on hover */
+  }
+  
+  .contact-info {
+    margin-top: 30px;
+    font-size: 1.2rem;
+    color: #34495e;
+  }
+  
+  .contact-info p {
+    margin: 5px 0;
+    font-size: 1.1rem;
+  }
+  
+  .contact-info p:first-child {
+    font-weight: bold;
+  }
+  

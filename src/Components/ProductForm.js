@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
+import axiosInstance from '../axiosInstance';
 
 const ProductForm = ({ onSave, fetchProducts }) => {
   const navigate = useNavigate();
@@ -14,8 +14,10 @@ const ProductForm = ({ onSave, fetchProducts }) => {
     category: '',
     sku: '',
     brand: '',
-    status: ''
+    status: '',
+    image: null,
   });
+  const [image, setImage] = useState(null);
 
   useEffect(() => {
     if (id) {
@@ -25,7 +27,7 @@ const ProductForm = ({ onSave, fetchProducts }) => {
 
   const fetchProduct = async (productId) => {
     try {
-      const response = await axios.get(`http://localhost:3001/api/products/${productId}`);
+      const response = await axiosInstance.get(`/api/products/${productId}`);
       setProduct(response.data);
     } catch (error) {
       console.error('Error fetching product:', error);
@@ -36,37 +38,111 @@ const ProductForm = ({ onSave, fetchProducts }) => {
     setProduct({ ...product, [e.target.name]: e.target.value });
   };
 
+  const handleFileChange = (e) => {
+    setImage(e.target.files[0]);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const formData = new FormData();
+    formData.append('name', product.name);
+    formData.append('description', product.description);
+    formData.append('price', product.price);
+    formData.append('currency', product.currency);
+    formData.append('stock', product.stock);
+    formData.append('category', product.category);
+    formData.append('sku', product.sku);
+    formData.append('brand', product.brand);
+    formData.append('status', product.status);
+    if (image) {
+      formData.append('image', image);
+    }
+
     try {
       let response;
       if (id) {
-        response = await axios.put(`http://localhost:3001/api/products/${id}`, product);
+        response = await axiosInstance.put(`/api/products/${id}`, formData);
       } else {
-        response = await axios.post('http://localhost:3001/api/products', product);
+        response = await axiosInstance.post('/api/products', formData);
       }
-      onSave(response.data); // Update the local state in App.js
-      fetchProducts(); // Refresh the product list in App.js
-      navigate('/'); // Redirect to the product list page
+      onSave(response.data);
+      fetchProducts();
+      navigate('/products');
     } catch (error) {
       console.error('Error saving product:', error);
     }
   };
 
   return (
-    <div>
-      <h2>{id ? 'Edit Product' : 'Create Product'}</h2>
+    <div className="product-form-container">
+      <h2>{id ? 'Edit Product' : 'Create New Product'}</h2>
       <form onSubmit={handleSubmit}>
-        <input type="text" name="name" placeholder="Name" value={product.name} onChange={handleChange} required />
-        <input type="text" name="description" placeholder="Description" value={product.description} onChange={handleChange} required />
-        <input type="number" name="price" placeholder="Price" value={product.price} onChange={handleChange} required />
-        <input type="text" name="currency" placeholder="Currency" value={product.currency} onChange={handleChange} required />
-        <input type="number" name="stock" placeholder="Stock" value={product.stock} onChange={handleChange} required />
-        <input type="text" name="category" placeholder="Category" value={product.category} onChange={handleChange} required />
-        <input type="text" name="sku" placeholder="SKU" value={product.sku} onChange={handleChange} required />
-        <input type="text" name="brand" placeholder="Brand" value={product.brand} onChange={handleChange} required />
-        <input type="text" name="status" placeholder="Status" value={product.status} onChange={handleChange} required />
-        <button type="submit">Save</button>
+        <input
+          type="text"
+          name="name"
+          value={product.name}
+          onChange={handleChange}
+          placeholder="Product Name"
+          required
+        />
+        <input
+          type="text"
+          name="description"
+          value={product.description}
+          onChange={handleChange}
+          placeholder="Description"
+        />
+        <input
+          type="number"
+          name="price"
+          value={product.price}
+          onChange={handleChange}
+          placeholder="Price"
+        />
+        <input
+          type="text"
+          name="currency"
+          value={product.currency}
+          onChange={handleChange}
+          placeholder="Currency"
+        />
+        <input
+          type="number"
+          name="stock"
+          value={product.stock}
+          onChange={handleChange}
+          placeholder="Stock"
+        />
+        <input
+          type="text"
+          name="category"
+          value={product.category}
+          onChange={handleChange}
+          placeholder="Category"
+        />
+        <input
+          type="text"
+          name="sku"
+          value={product.sku}
+          onChange={handleChange}
+          placeholder="SKU"
+        />
+        <input
+          type="text"
+          name="brand"
+          value={product.brand}
+          onChange={handleChange}
+          placeholder="Brand"
+        />
+        <input
+          type="text"
+          name="status"
+          value={product.status}
+          onChange={handleChange}
+          placeholder="Status"
+        />
+        <input type="file" onChange={handleFileChange} />
+        <button type="submit">{id ? 'Update Product' : 'Create Product'}</button>
       </form>
     </div>
   );

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import axiosInstance from '../axiosInstance';
+import './ProductDetail.css'; // Importing the new CSS for styling
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -10,7 +11,7 @@ const ProductDetail = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/api/products/${id}`);
+        const response = await axiosInstance.get(`/api/products/${id}`);
         setProduct(response.data);
       } catch (error) {
         console.error('Error fetching product:', error);
@@ -21,19 +22,28 @@ const ProductDetail = () => {
     fetchProduct();
   }, [id]);
 
-  if (loading) return <div>Loading...</div>;
-  if (!product) return <div>Product not found.</div>;
+  if (loading) return <div className="loading">Loading...</div>;
+  if (!product) return <div className="error">Product not found.</div>;
 
   return (
-    <div>
-      <h2>{product.name}</h2>
-      <p>Description: {product.description}</p>
-      <p>Price: {product.price} {product.currency}</p>
-      <p>Stock: {product.stock}</p>
-      <p>Category: {product.category}</p>
-      <p>SKU: {product.sku}</p>
-      <p>Brand: {product.brand}</p>
-      <p>Status: {product.status}</p>
+    <div className="product-detail">
+      <h2 className="product-title">{product.name}</h2>
+      <div className="product-info">
+        <div className="product-image">
+          <img src={product.image} alt={product.name} />
+        </div>
+        <div className="product-description">
+          <p className="product-description-text">{product.description}</p>
+        </div>
+      </div>
+      <div className="product-details">
+        <p><strong>Price:</strong> {product.price} {product.currency}</p>
+        <p><strong>Stock:</strong> {product.stock}</p>
+        <p><strong>Category:</strong> {product.category}</p>
+        <p><strong>SKU:</strong> {product.sku}</p>
+        <p><strong>Brand:</strong> {product.brand}</p>
+        <p><strong>Status:</strong> {product.status}</p>
+      </div>
     </div>
   );
 };

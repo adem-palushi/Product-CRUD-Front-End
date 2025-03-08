@@ -1,0 +1,36 @@
+/* Styling for the "About" page */
+.about-page {
+    background: linear-gradient(135deg, #3498db, #9b59b6); /* Smooth gradient: Blue to Purple */
+    color: #ffffff; /* White text for contrast */
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 20px; /* Ensures responsiveness */
+    box-sizing: border-box;
+}
+
+.overlay {
+    background-color: rgba(0, 0, 0, 0.5); /* Subtle black overlay for readability */
+    padding: 30px;
+    border-radius: 10px; /* Rounded corners for a modern look */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Adds depth */
+}
+
+/* Header styling */
+.about-page h1 {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+    font-weight: bold;
+}
+
+/* Paragraph styling */
+.about-page p {
+    font-size: 1.25rem;
+    margin: 10px 0;
+    line-height: 1.8;
+    max-width: 800px;
+}

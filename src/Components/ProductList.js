@@ -1,14 +1,66 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './ProductList.css';
 
-const ProductList = ({ products, onEdit, onDelete }) => {
+const ProductList = () => {
+  const [products, setProducts] = useState([]);
+  const [search, setSearch] = useState('');
   const navigate = useNavigate();
+
+  // Fetch products from the backend
+  const fetchProducts = async () => {
+    try {
+      const response = await fetch(`/api/products?search=${search}`);
+      const data = await response.json();
+      setProducts(data);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    }
+  };
+
+  // Fetch products when the component mounts or search term changes
+  useEffect(() => {
+    fetchProducts();
+  }, [search]);
+
+  // Handle delete action
+  const handleDelete = async (id) => {
+    try {
+      const response = await fetch(`/api/products/${id}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`, // Assuming the token is stored in localStorage
+        },
+      });
+
+      if (response.ok) {
+        // Remove the deleted product from the list in state
+        setProducts((prevProducts) => prevProducts.filter((product) => product._id !== id));
+      } else {
+        console.error('Error deleting product');
+      }
+    } catch (error) {
+      console.error('Error deleting product:', error);
+    }
+  };
 
   return (
     <div className="product-list-container">
       <h2>Product List</h2>
-      <Link to="/product/new" className="create-link">Create New Product</Link>
+      
+      {/* Search Bar */}
+      <input
+        type="text"
+        placeholder="Search Products"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        className="search-input"
+      />
+      
+      <Link to="/product/new" className="create-link">
+        Create New Product
+      </Link>
+      
       <table className="product-table">
         <thead>
           <tr>
@@ -21,6 +73,7 @@ const ProductList = ({ products, onEdit, onDelete }) => {
             <th>SKU</th>
             <th>Brand</th>
             <th>Status</th>
+            <th>Image</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -28,7 +81,9 @@ const ProductList = ({ products, onEdit, onDelete }) => {
           {products.map((product) => (
             <tr key={product._id}>
               <td>
-                <Link to={`/product/details/${product._id}`} className="product-link">{product.name}</Link>
+                <Link to={`/product/details/${product._id}`} className="product-link">
+                  {product.name}
+                </Link>
               </td>
               <td>{product.description}</td>
               <td>{product.price}</td>
@@ -39,8 +94,19 @@ const ProductList = ({ products, onEdit, onDelete }) => {
               <td>{product.brand}</td>
               <td>{product.status}</td>
               <td>
-                <button onClick={() => navigate(`/product/edit/${product._id}`)} className="edit-button">Edit</button>
-                <button onClick={() => onDelete(product._id)} className="delete-button">Delete</button>
+                {product.image ? (
+                  <img src={product.image} alt={product.name} className="product-image" />
+                ) : (
+                  <span>No Image</span>
+                )}
+              </td>
+              <td>
+                <button onClick={() => navigate(`/product/edit/${product._id}`)} className="edit-button">
+                  Edit
+                </button>
+                <button onClick={() => handleDelete(product._id)} className="delete-button">
+                  Delete
+                </button>
               </td>
             </tr>
           ))}
