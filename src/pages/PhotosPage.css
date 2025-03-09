@@ -1,85 +1,180 @@
+/* Base styling for the page and other elements */
 .photos-page {
-    background-color: #e67e22; /* Vibrant Orange */
-    color: white;
-    min-height: 100vh;
-    padding: 40px;
-    text-align: center;
-  }
-  
-  .content {
-    background-color: rgba(0, 0, 0, 0.7);
-    padding: 20px;
-    border-radius: 10px;
-  }
-  
-  h1 {
-    font-size: 3rem;
-    margin-bottom: 20px;
-  }
-  
-  .photo-controls {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-  
-  input[type="text"] {
-    padding: 10px;
-    width: 200px;
-    border: none;
-    border-radius: 5px;
-  }
-  
-  input[type="file"] {
-    padding: 10px;
-    border: none;
-  }
-  
-  button {
-    padding: 10px 20px;
-    background-color: #3498db;
-    color: white;
-    border: none;
-    border-radius: 5px;
+  background-color: #22dfe6f8; /* Vibrant Orange */
+  color: white;
+  min-height: 100vh;
+  padding: 40px;
+  text-align: center;
+}
+
+.content {
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.photo-controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+input[type="text"] {
+  padding: 10px;
+  width: 200px;
+  border: none;
+  border-radius: 5px;
+}
+
+input[type="file"] {
+  padding: 10px;
+  border: none;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #345bdb;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #1abc9c;
+}
+
+.photos-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.photo-card {
+  border: 3px solid rgba(2, 0, 0, 0.315);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.photo-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.delete-button {
+  display: block;
+  margin: 10px auto;
+  padding: 10px;
+  background-color: #c0392b;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  background-color: #e74c3c;
+}
+
+/* Notification Bell Icon */
+.notification-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    z-index: 10;
   }
   
-  button:hover {
-    background-color: #1abc9c;
+  .bell-icon {
+    font-size: 2.5rem;
+    color: black;
+    position: relative;
   }
   
-  .photos-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+  .bell-icon.new-notification {
+    color: red; /* Green bell icon with new notifications */
   }
   
-  .photo-card {
-    border: 3px solid white;
-    border-radius: 10px;
-    overflow: hidden;
+  /* Red dot on bell when there's a new notification */
+  .bell-icon.new-notification::after {
+    content: '';
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    width: 12px;
+    height: 12px;
+    background-color: red;
+    border-radius: 50%;
+    border: 2px solid white;
   }
   
-  .photo-card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-  }
-  
-  .delete-button {
-    display: block;
-    margin: 10px auto;
-    padding: 10px;
-    background-color: #c0392b;
+  /* Notification Popup */
+  .notifications-popup {
+    position: absolute;
+    top: 50px;
+    right: 20px;
+    background-color: #2c3e50; /* Darker background for better contrast */
     color: white;
-    border: none;
+    border-radius: 8px;
+    padding: 15px;
+    width: 300px; /* Slightly increased width */
+    max-height: 300px; /* Increased max height */
+    overflow-y: auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Slightly stronger shadow */
+    border: 2px solid #16a085; /* Add border to make the popup more defined */
+  }
+  
+  .notification-item {
+    padding: 12px;
+    margin-bottom: 8px;
+    background-color: #34495e; /* Darker background for items */
     border-radius: 5px;
+    font-size: 14px;
+    border: 1px solid #16a085; /* Green border for each notification item */
+  }
+  
+  .notification-item:last-child {
+    margin-bottom: 0;
+  }
+  
+  .notification-item:hover {
+    background-color: #1abc9c; /* Light green hover effect */
     cursor: pointer;
   }
+
+  /* Delete button in notification */
+  .delete-notification {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    margin-left: 10px;
+  }
   
-  .delete-button:hover {
-    background-color: #e74c3c;
+  .delete-notification:hover {
+    color: red;
+  }
+  
+  /* Scrollbar for the popup */
+  .notifications-popup::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .notifications-popup::-webkit-scrollbar-thumb {
+    background-color: #1abc9c; /* Green scrollbar thumb */
+    border-radius: 3px;
+  }
+  
+  .notifications-popup::-webkit-scrollbar-thumb:hover {
+    background-color: #16a085; /* Darker green when hovered */
   }
   

@@ -1,19 +1,49 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import './PhotosPage.css'; // Import the corresponding CSS
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { FaBell } from 'react-icons/fa';
 
 const PhotosPage = () => {
   const [photos, setPhotos] = useState([]);
-  const [title, setTitle] = useState(''); // For capturing the photo title
-  const [selectedFile, setSelectedFile] = useState(null); // For capturing the photo file
+  const [title, setTitle] = useState('');
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [notifications, setNotifications] = useState([]); // Store notifications
+  const [showPopup, setShowPopup] = useState(false); // Control popup visibility
+  const [hasNewNotification, setHasNewNotification] = useState(false); // Track if there's a new notification
+
+  const popupRef = useRef(null); // Reference for the popup
+  const bellRef = useRef(null); // Reference for the bell icon
 
   useEffect(() => {
     fetchPhotos();
   }, []);
 
-  // Fetch photos from the backend
+  useEffect(() => {
+    // Event listener to close the popup when clicked outside
+    const handleClickOutside = (event) => {
+      if (
+        popupRef.current &&
+        !popupRef.current.contains(event.target) &&
+        bellRef.current &&
+        !bellRef.current.contains(event.target)
+      ) {
+        setShowPopup(false);
+      }
+    };
+
+    if (showPopup) {
+      document.addEventListener('click', handleClickOutside);
+    } else {
+      document.removeEventListener('click', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [showPopup]);
+
   const fetchPhotos = async () => {
     try {
       const response = await axios.get('http://localhost:3002/api/photos', {
@@ -26,12 +56,10 @@ const PhotosPage = () => {
     }
   };
 
-  // Handle file input change
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
 
-  // Upload photo to the backend
   const handleUpload = async () => {
     if (!selectedFile || !title) {
       toast.error('Please provide a title and select a photo');
@@ -49,29 +77,47 @@ const PhotosPage = () => {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
-      setTitle(''); // Reset title field
-      setSelectedFile(null); // Reset file input
-      fetchPhotos(); // Refresh photo list
-      toast.success('Photo uploaded successfully');
+
+      setTitle('');
+      setSelectedFile(null);
+      fetchPhotos();
+
+      // After upload, trigger notification (but don't show message immediately)
+      setNotifications((prev) => [
+        ...prev,
+        { id: new Date().getTime(), message: 'New photo uploaded successfully' },
+      ]);
+      setHasNewNotification(true); // Show red dot on bell
     } catch (error) {
       console.error('Error uploading photo:', error);
       toast.error('Error uploading photo');
     }
   };
 
-  // Delete a photo by ID
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:3002/api/photos/${id}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
-      fetchPhotos(); // Refresh photo list after deletion
+      fetchPhotos();
       toast.success('Photo deleted successfully');
     } catch (error) {
       console.error('Error deleting photo:', error);
       toast.error('Error deleting photo');
     }
   };
+
+  const handleBellClick = () => {
+    setShowPopup((prev) => !prev); // Toggle the visibility of the notification popup
+    if (hasNewNotification) {
+      setHasNewNotification(false); // Remove red dot when clicking on bell
+    }
+  };
+
+  const handleDeleteNotification = (id) => {
+    setNotifications((prev) => prev.filter((notification) => notification.id !== id));
+  };
+  
 
   return (
     <div className="photos-page">
@@ -101,7 +147,33 @@ const PhotosPage = () => {
           ))}
         </div>
       </div>
-      <ToastContainer /> {/* Add this container to show notifications */}
+
+      {/* Notification Bell */}
+      <div className="notification-container" onClick={handleBellClick} ref={bellRef}>
+        <FaBell className={`bell-icon ${hasNewNotification ? 'new-notification' : ''}`} />
+      </div>
+
+    {/* Notification Popup */}
+{showPopup && (
+  <div className="notifications-popup" ref={popupRef}>
+    {notifications.length > 0 ? (
+      notifications.map((notification) => (
+        <div key={notification.id} className="notification-item">
+          <span>{notification.message}</span>
+          <button 
+            className="delete-notification"
+            onClick={() => handleDeleteNotification(notification.id)}
+          >
+            &times;
+          </button>
+        </div>
+      ))
+    ) : (
+      <div className="notification-item">No new notifications</div>
+    )}
+  </div>
+)}
+      <ToastContainer />
     </div>
   );
 };

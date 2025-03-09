@@ -9,7 +9,7 @@ const HomePage = () => {
         <p>Manage your products and photos easily.</p>
         <div className="contact-info">
           <p>Email: support@gmail.com</p>
-          <p>Phone: +355 456 7890</p>
+          <p>Phone: +355 456 7892</p>
           <p>Instagram: support@gmail.com</p>
           <p>Facebook: support@gmail.com</p>
         </div>

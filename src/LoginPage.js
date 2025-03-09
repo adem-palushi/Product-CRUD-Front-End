@@ -21,7 +21,7 @@ const LoginPage = () => {
     try {
       const response = await axios.post('http://localhost:3002/api/auth/login', formData);
       login(response.data.token); // Use the login function to store the token
-      navigate('/menu');  // Redirect to products page
+      navigate('/menu');  // Redirect to menu page
     } catch (error) {
       console.error('Error logging in:', error);
     }
