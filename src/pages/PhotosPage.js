@@ -4,12 +4,13 @@ import './PhotosPage.css';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FaBell } from 'react-icons/fa';
+import io from 'socket.io-client';
 
 const PhotosPage = () => {
   const [photos, setPhotos] = useState([]);
   const [title, setTitle] = useState('');
   const [selectedFile, setSelectedFile] = useState(null);
-  const [notifications, setNotifications] = useState([]); // Store notifications
+  const [notifications, setNotifications] = useState([]);
   const [showPopup, setShowPopup] = useState(false); // Control popup visibility
   const [hasNewNotification, setHasNewNotification] = useState(false); // Track if there's a new notification
   const [unreadCount, setUnreadCount] = useState(0); // Track unread notification count
@@ -18,19 +19,38 @@ const PhotosPage = () => {
   const popupRef = useRef(null);
   const bellRef = useRef(null);
 
+  const socket = useRef(null);
+
   useEffect(() => {
     fetchPhotos();
+
+    // Initialize socket connection
+    socket.current = io('http://localhost:3002'); 
+
+    // Listen for notifications from the server
+    socket.current.on('newNotification', (notification) => {
+      setNotifications((prev) => [...prev, notification]);
+      setHasNewNotification(true);
+      setUnreadCount((prevCount) => prevCount + 1);
+    });
+
+    return () => {
+      if (socket.current) {
+        socket.current.disconnect();
+      }
+    };
   }, []);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
+      // Check if click is outside of the bell icon or popup
       if (
         popupRef.current &&
         !popupRef.current.contains(event.target) &&
         bellRef.current &&
         !bellRef.current.contains(event.target)
       ) {
-        setShowPopup(false);
+        setShowPopup(false); // Close the popup if clicked outside
       }
     };
 
@@ -83,18 +103,17 @@ const PhotosPage = () => {
       setSelectedFile(null);
       fetchPhotos();
 
-      // Add a new notification for the uploaded photo
-      setNotifications((prev) => [
-        ...prev,
-        {
-          id: new Date().getTime(),
-          photoId: response.data._id, // ID of the uploaded photo
-          message: `New photo "${title}" uploaded successfully`,
-          seen: false, // Initially unseen
-        },
-      ]);
+      const notification = {
+        id: new Date().getTime(),
+        photoId: response.data._id, // ID of the uploaded photo
+        message: `New photo "${title}" uploaded successfully`,
+        seen: false,
+      };
+
+      socket.current.emit('sendNotification', notification);
+
       setHasNewNotification(true);
-      setUnreadCount((prevCount) => prevCount + 1);
+    //   setUnreadCount((prevCount) => prevCount + 1);
     } catch (error) {
       console.error('Error uploading photo:', error);
       toast.error('Error uploading photo');
@@ -102,22 +121,19 @@ const PhotosPage = () => {
   };
 
   const handleNotificationClick = (notification) => {
-    // Mark notification as seen
     setNotifications((prev) =>
       prev.map((n) =>
         n.id === notification.id ? { ...n, seen: true } : n
       )
     );
 
-    // Decrement the unread count if the notification was unseen
     if (!notification.seen) {
       setUnreadCount((prevCount) => Math.max(prevCount - 1, 0));
     }
 
-    // Fetch and display the related photo
     const relatedPhoto = photos.find((photo) => photo._id === notification.photoId);
     if (relatedPhoto) {
-      setSelectedPhoto(relatedPhoto); // Open modal with photo
+      setSelectedPhoto(relatedPhoto);
     } else {
       toast.error('Photo not found for this notification.');
     }
@@ -137,11 +153,10 @@ const PhotosPage = () => {
   };
 
   const handleDeleteNotification = (id) => {
-    // Remove the notification from the list and update the unread count if it was unseen
     setNotifications((prev) => {
       const notificationToDelete = prev.find((n) => n.id === id);
       if (notificationToDelete && !notificationToDelete.seen) {
-        setUnreadCount((prevCount) => Math.max(prevCount - 1, 0)); // Decrement unread count
+        setUnreadCount((prevCount) => Math.max(prevCount - 1, 0));
       }
       return prev.filter((notification) => notification.id !== id);
     });
