@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import './PhotosPage.css'; // Import the corresponding CSS
+import './PhotosPage.css';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FaBell } from 'react-icons/fa';
@@ -12,16 +12,17 @@ const PhotosPage = () => {
   const [notifications, setNotifications] = useState([]); // Store notifications
   const [showPopup, setShowPopup] = useState(false); // Control popup visibility
   const [hasNewNotification, setHasNewNotification] = useState(false); // Track if there's a new notification
+  const [unreadCount, setUnreadCount] = useState(0); // Track unread notification count
+  const [selectedPhoto, setSelectedPhoto] = useState(null); // Track the photo to display in the modal
 
-  const popupRef = useRef(null); // Reference for the popup
-  const bellRef = useRef(null); // Reference for the bell icon
+  const popupRef = useRef(null);
+  const bellRef = useRef(null);
 
   useEffect(() => {
     fetchPhotos();
   }, []);
 
   useEffect(() => {
-    // Event listener to close the popup when clicked outside
     const handleClickOutside = (event) => {
       if (
         popupRef.current &&
@@ -71,7 +72,7 @@ const PhotosPage = () => {
     formData.append('image', selectedFile);
 
     try {
-      await axios.post('http://localhost:3002/api/photos', formData, {
+      const response = await axios.post('http://localhost:3002/api/photos', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -82,15 +83,43 @@ const PhotosPage = () => {
       setSelectedFile(null);
       fetchPhotos();
 
-      // After upload, trigger notification (but don't show message immediately)
+      // Add a new notification for the uploaded photo
       setNotifications((prev) => [
         ...prev,
-        { id: new Date().getTime(), message: 'New photo uploaded successfully' },
+        {
+          id: new Date().getTime(),
+          photoId: response.data._id, // ID of the uploaded photo
+          message: `New photo "${title}" uploaded successfully`,
+          seen: false, // Initially unseen
+        },
       ]);
-      setHasNewNotification(true); // Show red dot on bell
+      setHasNewNotification(true);
+      setUnreadCount((prevCount) => prevCount + 1);
     } catch (error) {
       console.error('Error uploading photo:', error);
       toast.error('Error uploading photo');
+    }
+  };
+
+  const handleNotificationClick = (notification) => {
+    // Mark notification as seen
+    setNotifications((prev) =>
+      prev.map((n) =>
+        n.id === notification.id ? { ...n, seen: true } : n
+      )
+    );
+
+    // Decrement the unread count if the notification was unseen
+    if (!notification.seen) {
+      setUnreadCount((prevCount) => Math.max(prevCount - 1, 0));
+    }
+
+    // Fetch and display the related photo
+    const relatedPhoto = photos.find((photo) => photo._id === notification.photoId);
+    if (relatedPhoto) {
+      setSelectedPhoto(relatedPhoto); // Open modal with photo
+    } else {
+      toast.error('Photo not found for this notification.');
     }
   };
 
@@ -107,17 +136,16 @@ const PhotosPage = () => {
     }
   };
 
-  const handleBellClick = () => {
-    setShowPopup((prev) => !prev); // Toggle the visibility of the notification popup
-    if (hasNewNotification) {
-      setHasNewNotification(false); // Remove red dot when clicking on bell
-    }
-  };
-
   const handleDeleteNotification = (id) => {
-    setNotifications((prev) => prev.filter((notification) => notification.id !== id));
+    // Remove the notification from the list and update the unread count if it was unseen
+    setNotifications((prev) => {
+      const notificationToDelete = prev.find((n) => n.id === id);
+      if (notificationToDelete && !notificationToDelete.seen) {
+        setUnreadCount((prevCount) => Math.max(prevCount - 1, 0)); // Decrement unread count
+      }
+      return prev.filter((notification) => notification.id !== id);
+    });
   };
-  
 
   return (
     <div className="photos-page">
@@ -128,7 +156,7 @@ const PhotosPage = () => {
             type="text"
             placeholder="Enter photo title"
             value={title}
-            onChange={(e) => setTitle(e.target.value)} // Capture title input
+            onChange={(e) => setTitle(e.target.value)}
           />
           <input type="file" onChange={handleFileChange} />
           <button onClick={handleUpload}>Upload Photo</button>
@@ -149,30 +177,46 @@ const PhotosPage = () => {
       </div>
 
       {/* Notification Bell */}
-      <div className="notification-container" onClick={handleBellClick} ref={bellRef}>
+      <div className="notification-container" onClick={() => setShowPopup((prev) => !prev)} ref={bellRef}>
         <FaBell className={`bell-icon ${hasNewNotification ? 'new-notification' : ''}`} />
+        {unreadCount > 0 && <span className="notification-badge">{unreadCount}</span>}
       </div>
 
-    {/* Notification Popup */}
-{showPopup && (
-  <div className="notifications-popup" ref={popupRef}>
-    {notifications.length > 0 ? (
-      notifications.map((notification) => (
-        <div key={notification.id} className="notification-item">
-          <span>{notification.message}</span>
-          <button 
-            className="delete-notification"
-            onClick={() => handleDeleteNotification(notification.id)}
-          >
-            &times;
-          </button>
+      {/* Notification Popup */}
+      {showPopup && (
+        <div className="notifications-popup" ref={popupRef}>
+          {notifications.length > 0 ? (
+            notifications.map((notification) => (
+              <div
+                key={notification.id}
+                className={`notification-item ${notification.seen ? 'seen' : 'unseen'}`}
+              >
+                <span onClick={() => handleNotificationClick(notification)}>{notification.message}</span>
+                <button
+                  className="delete-notification"
+                  onClick={() => handleDeleteNotification(notification.id)}
+                >
+                  &times;
+                </button>
+              </div>
+            ))
+          ) : (
+            <div className="notification-item">No new notifications</div>
+          )}
         </div>
-      ))
-    ) : (
-      <div className="notification-item">No new notifications</div>
-    )}
-  </div>
-)}
+      )}
+
+      {/* Modal to display selected photo */}
+      {selectedPhoto && (
+        <div className="modal-overlay" onClick={() => setSelectedPhoto(null)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <img src={selectedPhoto.image} alt={selectedPhoto.title} />
+            <h2>{selectedPhoto.title}</h2>
+            <button onClick={() => setSelectedPhoto(null)}>Close</button>
+          </div>
+        </div>
+      )}
+
       <ToastContainer />
     </div>
   );

@@ -1,91 +1,100 @@
 /* Base styling for the page and other elements */
 .photos-page {
-  background-color: #22dfe6f8; /* Vibrant Orange */
-  color: white;
-  min-height: 100vh;
-  padding: 40px;
-  text-align: center;
-}
-
-.content {
-  background-color: rgba(0, 0, 0, 0.7);
-  padding: 20px;
-  border-radius: 10px;
-}
-
-h1 {
-  font-size: 3rem;
-  margin-bottom: 20px;
-}
-
-.photo-controls {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-input[type="text"] {
-  padding: 10px;
-  width: 200px;
-  border: none;
-  border-radius: 5px;
-}
-
-input[type="file"] {
-  padding: 10px;
-  border: none;
-}
-
-button {
-  padding: 10px 20px;
-  background-color: #345bdb;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-button:hover {
-  background-color: #1abc9c;
-}
-
-.photos-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-
-.photo-card {
-  border: 3px solid rgba(2, 0, 0, 0.315);
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.photo-card img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-}
-
-.delete-button {
-  display: block;
-  margin: 10px auto;
-  padding: 10px;
-  background-color: #c0392b;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.delete-button:hover {
-  background-color: #e74c3c;
-}
-
-/* Notification Bell Icon */
-.notification-container {
+    background-color: #f5f5f5; /* Light gray background for professional look */
+    color: #333333; /* Standard dark text color */
+    min-height: 100vh;
+    padding: 40px;
+    text-align: center;
+    font-family: 'Arial', sans-serif; /* Clean font for a modern look */
+  }
+  
+  .content {
+    background-color: #0c9a9fb8; /* White card-style background */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #2c3e50; /* Dark blue for headings */
+  }
+  
+  .photo-controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  input[type="text"] {
+    padding: 10px;
+    width: 250px;
+    border: 1px solid #ccc; /* Subtle border */
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+  
+  input[type="file"] {
+    padding: 10px;
+    border: none;
+    font-size: 1rem;
+  }
+  
+  button {
+    padding: 10px 20px;
+    background-color: #007bff; /* Primary blue button */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s, transform 0.2s; /* Smooth transitions */
+  }
+  
+  button:hover {
+    background-color: #0056b3; /* Darker blue hover effect */
+    transform: translateY(-2px); /* Slight lift on hover */
+  }
+  
+  .photos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
+    gap: 20px;
+  }
+  
+  .photo-card {
+    border: 2px solid #e0e0e0; /* Light border */
+    border-radius: 10px;
+    overflow: hidden;
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Card shadow */
+  }
+  
+  .photo-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .delete-button {
+    display: block;
+    margin: 10px auto;
+    padding: 10px;
+    background-color: #dc3545; /* Danger red button */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .delete-button:hover {
+    background-color: #b71c1c; /* Darker red on hover */
+  }
+  
+  /* Notification bell icon */
+  .notification-container {
     position: fixed;
     top: 20px;
     right: 20px;
@@ -95,12 +104,25 @@ button:hover {
   
   .bell-icon {
     font-size: 2.5rem;
-    color: black;
+    color: #333333; /* Dark gray for bell icon */
     position: relative;
   }
   
-  .bell-icon.new-notification {
-    color: red; /* Green bell icon with new notifications */
+  .notification-badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: #dc3545; /* Red for badge */
+    color: white;
+    font-size: 0.8rem;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid white;
   }
   
   /* Red dot on bell when there's a new notification */
@@ -111,7 +133,7 @@ button:hover {
     right: -5px;
     width: 12px;
     height: 12px;
-    background-color: red;
+    background-color: #dc3545;
     border-radius: 50%;
     border: 2px solid white;
   }
@@ -121,60 +143,123 @@ button:hover {
     position: absolute;
     top: 50px;
     right: 20px;
-    background-color: #2c3e50; /* Darker background for better contrast */
-    color: white;
-    border-radius: 8px;
-    padding: 15px;
-    width: 300px; /* Slightly increased width */
-    max-height: 300px; /* Increased max height */
-    overflow-y: auto;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Slightly stronger shadow */
-    border: 2px solid #16a085; /* Add border to make the popup more defined */
+    background-color: #ffffff; /* Clean white background */
+    color: #333333; /* Dark gray text */
+    border-radius: 12px;
+    padding: 20px;
+    width: 320px; /* Slightly wider */
+    max-height: 400px; /* Increased height */
+    overflow-y: auto; /* Scrollable content */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Soft shadow */
+    border: 1px solid #e0e0e0; /* Subtle border for structure */
   }
   
+  /* Notification Item */
   .notification-item {
-    padding: 12px;
-    margin-bottom: 8px;
-    background-color: #34495e; /* Darker background for items */
-    border-radius: 5px;
-    font-size: 14px;
-    border: 1px solid #16a085; /* Green border for each notification item */
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9; /* Soft gray background */
+    border-radius: 8px;
+    font-size: 15px;
+    color: #2c3e50; /* Professional dark text */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth hover transition */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
   
   .notification-item:last-child {
     margin-bottom: 0;
   }
   
+  /* Unseen Notification */
+  .notification-item.unseen {
+    background-color: #e8f4fc; /* Light blue background for unseen items */
+    font-weight: bold;
+    color: #0077b6; /* Blue text for emphasis */
+  }
+  
+  /* Seen Notification */
+  .notification-item.seen {
+    background-color: #f9f9f9; /* Neutral gray for seen items */
+    font-weight: normal;
+    color: #6c757d; /* Subtle text for lower emphasis */
+  }
+  
+  /* Hover Effect for Notifications */
   .notification-item:hover {
-    background-color: #1abc9c; /* Light green hover effect */
+    background-color: #dff6ff; /* Slightly darker blue on hover */
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.1); /* Soft hover shadow */
     cursor: pointer;
   }
-
-  /* Delete button in notification */
+  
+  /* Delete Button */
   .delete-notification {
     background: none;
     border: none;
-    color: white;
-    font-size: 18px;
+    color: #dc3545; /* Danger red */
+    font-size: 16px;
     cursor: pointer;
-    margin-left: 10px;
   }
   
   .delete-notification:hover {
-    color: red;
+    color: #b71c1c; /* Darker red for hover */
   }
   
-  /* Scrollbar for the popup */
+  /* Scrollbar for Popup */
   .notifications-popup::-webkit-scrollbar {
     width: 6px;
   }
   
   .notifications-popup::-webkit-scrollbar-thumb {
-    background-color: #1abc9c; /* Green scrollbar thumb */
+    background-color: #0077b6; /* Blue scrollbar thumb */
     border-radius: 3px;
   }
   
   .notifications-popup::-webkit-scrollbar-thumb:hover {
-    background-color: #16a085; /* Darker green when hovered */
+    background-color: #0056a3; /* Darker blue on hover */
+  }
+  
+  /* Modal Styles */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Dark overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+  }
+  
+  .modal-content {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    width: 80%;
+    max-width: 600px;
+  }
+  
+  .modal-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  
+  .modal-content button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .modal-content button:hover {
+    background: #0056b3;
   }
   
